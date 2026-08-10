@@ -4,16 +4,20 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-  ArrowUpRight,
   ArrowUp,
+  ArrowUpRight,
   BriefcaseBusiness,
   CheckCircle2,
   Code2,
+  Database,
   ExternalLink,
   Github,
+  Headphones,
+  Linkedin,
+  Mail,
   Menu,
   Moon,
-  Palette,
+  Phone,
   ServerCog,
   Sparkles,
   Sun,
@@ -22,39 +26,93 @@ import {
 
 type Theme = "light" | "dark";
 
+const contact = {
+  email: "fernando.jhay48@gmail.com",
+  phone: "+63 930 161 9346",
+  linkedin: "https://www.linkedin.com/in/bernie-fernando-b9a981312",
+  github: "https://github.com/docjay8390",
+  facebook: "https://www.facebook.com/profile.php?id=100009836075204",
+  instagram: "https://www.instagram.com/itsdjfrnndo/",
+  x: "https://twitter.com/xxdjfrnndo",
+};
+
 const navItems = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
   { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
   { label: "Work", href: "#work" },
-  { label: "Certificates", href: "#certificates" },
   { label: "Contact", href: "#contact" },
 ];
 
 const services = [
   {
-    title: "IT Operations",
+    title: "Enterprise Web Apps",
     description:
-      "Hands-on support for systems, users, and internal tools with a calm, practical approach to daily technical issues.",
-    icon: ServerCog,
-  },
-  {
-    title: "Web Development",
-    description:
-      "Responsive interfaces built with clean structure, readable code, and attention to performance across screen sizes.",
+      "Internal applications for employees and business operations using Next.js, React, TypeScript, and Tailwind CSS.",
     icon: Code2,
   },
   {
-    title: "UI/UX Design",
+    title: "REST APIs & Database",
     description:
-      "Simple flows, clear visual hierarchy, and Figma-first thinking for sites and applications that feel easy to use.",
-    icon: Palette,
+      "Backend development with Node.js, REST API work, Oracle Database integrations, and optimized SQL queries.",
+    icon: Database,
   },
   {
-    title: "Creative Media",
+    title: "IT Support",
     description:
-      "Photo, design, and video editing support for polished digital content, presentations, and online materials.",
-    icon: Sparkles,
+      "Hardware, software, account access, password reset, system troubleshooting, deployment, and user support.",
+    icon: ServerCog,
+  },
+  {
+    title: "Customer Support",
+    description:
+      "Chat-based support, service requests, billing concerns, order tracking, and clear customer communication.",
+    icon: Headphones,
+  },
+];
+
+const experience = [
+  {
+    role: "IT Officer - Full Stack Developer & IT Support",
+    company: "Charoen Pokphand Foods Philippines Corporation",
+    date: "March 2025 - Present",
+    bullets: [
+      "Developed and maintained internal web applications for employees and business operations.",
+      "Built responsive full-stack applications using Next.js, React.js, TypeScript, and Tailwind CSS.",
+      "Developed REST APIs, integrated Oracle Database, and wrote optimized SQL queries using Toad for Oracle.",
+      "Implemented secure authentication, role-based access control, performance improvements, and deployment support.",
+      "Provided technical support for user accounts, password resets, application issues, and troubleshooting.",
+    ],
+  },
+  {
+    role: "Customer Service Representative - Chat Support",
+    company: "TTEC, San Fernando",
+    date: "Aug 2025 - Nov 2025",
+    bullets: [
+      "Provided chat-based support for telecommunications products and services.",
+      "Assisted customers with account inquiries, billing concerns, service requests, and device order status.",
+      "Troubleshot mobile device and network-related issues while maintaining accurate and timely resolutions.",
+    ],
+  },
+  {
+    role: "IT Support Intern",
+    company: "BMG Outsourcing, Clark",
+    date: "Jan 2025 - May 2025",
+    bullets: [
+      "Supported employees with hardware, software, and application-related issues.",
+      "Configured desktops and laptops, installed operating systems, and maintained business applications.",
+      "Performed account provisioning, assisted with access management, and resolved IT support tickets.",
+    ],
+  },
+  {
+    role: "Poster and Video Editor",
+    company: "Maclouds",
+    date: "May 2021 - May 2022",
+    bullets: [
+      "Created marketing posters and video content for branding and promotions.",
+      "Used Canva, Figma, PicsArt, CapCut, KineMaster, Adobe Premiere Pro, and photo editing tools.",
+    ],
   },
 ];
 
@@ -85,7 +143,7 @@ const projects = [
   },
 ];
 
-const certificates = [
+const certificateImages = [
   {
     title: "Share Data Through the Art of Visualization",
     image: "/img/ShareData.jpg",
@@ -100,19 +158,37 @@ const certificates = [
   },
 ];
 
-const skills = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Tailwind CSS",
-  "Bootstrap",
-  "Figma",
-  "Photoshop",
-  "Video editing",
-  "Technical support",
+const certifications = [
+  "Information Technology Specialist in HTML and CSS",
+  "Information Technology Specialist in Networking",
+  "Microsoft 365 Fundamentals",
+  "Cisco Certified Support Technician IT Support",
+  "Meta Certified Digital Marketing Associate",
+];
+
+const skillGroups = [
+  {
+    title: "Frontend",
+    skills: ["Next.js", "React.js", "TypeScript", "JavaScript", "Tailwind CSS", "HTML5", "CSS3"],
+  },
+  {
+    title: "Backend & Database",
+    skills: ["Node.js", "REST API development", "Oracle Database", "SQL queries"],
+  },
+  {
+    title: "Tools",
+    skills: ["Git", "GitHub", "VS Code", "Toad for Oracle"],
+  },
+  {
+    title: "IT Support",
+    skills: ["Windows", "macOS", "Hardware troubleshooting", "Software troubleshooting", "User management"],
+  },
+];
+
+const quickStats = [
+  ["1+", "Year experience"],
+  ["5", "Certifications"],
+  ["4", "Professional roles"],
 ];
 
 const fadeUp = {
@@ -144,10 +220,7 @@ export default function Home() {
   }, [theme]);
 
   function toggleTheme() {
-    setTheme((currentTheme) => {
-      const nextTheme = currentTheme === "dark" ? "light" : "dark";
-      return nextTheme;
-    });
+    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
   }
 
   function closeMenu() {
@@ -163,8 +236,8 @@ export default function Home() {
               BF
             </span>
             <span className="hidden leading-tight sm:block">
-              <span className="block text-sm font-semibold">Bernie Fernando</span>
-              <span className="block text-xs text-slate-500 dark:text-zinc-400">IT Officer</span>
+              <span className="block text-sm font-semibold">Bernie S. Fernando Jr.</span>
+              <span className="block text-xs text-slate-500 dark:text-zinc-400">IT Support | Full-Stack Developer</span>
             </span>
           </a>
 
@@ -230,38 +303,32 @@ export default function Home() {
           <motion.div initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.55 }}>
             <span className="inline-flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300">
               <CheckCircle2 size={16} />
-              Available for web, design, and IT support projects
+              IT Support | Full-Stack Developer
             </span>
             <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl dark:text-white">
-              IT Officer building clean, responsive digital experiences.
+              Building reliable web apps and supporting the people who use them.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg dark:text-zinc-300">
-              I&apos;m Bernie Fernando, an IT Officer at Charoen Pokphand Foods Philippines Corporation with a practical focus on web development, UI/UX design, and dependable technical support.
+              I&apos;m Bernie S. Fernando Jr., an IT professional with more than 1 year of combined experience in software development, IT support, and customer service. I work with enterprise web applications, REST APIs, Oracle Database integrations, and hands-on technical support.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#work"
+                href="#experience"
                 className="inline-flex items-center justify-center gap-2 rounded-md bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-emerald-300"
               >
-                View work
+                View experience
                 <ArrowUpRight size={18} />
               </a>
               <a
-                href="https://github.com/docjay8390"
-                target="_blank"
-                rel="noreferrer"
+                href={`mailto:${contact.email}`}
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
-                <Github size={18} />
-                View GitHub
+                <Mail size={18} />
+                Email me
               </a>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-3 sm:max-w-xl">
-              {[
-                ["4+", "Core skills"],
-                ["3", "Featured works"],
-                ["100%", "Responsive"],
-              ].map(([value, label]) => (
+              {quickStats.map(([value, label]) => (
                 <div key={label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
                   <strong className="block text-2xl font-bold text-slate-950 dark:text-white">{value}</strong>
                   <span className="mt-1 block text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-zinc-400">
@@ -292,12 +359,26 @@ export default function Home() {
                   />
                 </div>
                 <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5 dark:border-white/10 dark:bg-zinc-950/70">
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h2 className="text-lg font-bold">Bernie S. Fernando</h2>
-                      <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">IT Officer · Web Developer · UI/UX Designer</p>
+                      <h2 className="text-lg font-bold">Bernie S. Fernando Jr.</h2>
+                      <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">IT Support | Full-Stack Developer</p>
                     </div>
                     <BriefcaseBusiness className="shrink-0 text-emerald-600 dark:text-emerald-300" size={24} />
+                  </div>
+                  <div className="mt-5 grid gap-3 text-sm text-slate-600 dark:text-zinc-300">
+                    <a className="inline-flex items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={`tel:${contact.phone.replace(/\s/g, "")}`}>
+                      <Phone size={16} />
+                      {contact.phone}
+                    </a>
+                    <a className="inline-flex items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={`mailto:${contact.email}`}>
+                      <Mail size={16} />
+                      {contact.email}
+                    </a>
+                    <a className="inline-flex items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={contact.linkedin} target="_blank" rel="noreferrer">
+                      <Linkedin size={16} />
+                      LinkedIn profile
+                    </a>
                   </div>
                 </div>
               </div>
@@ -308,7 +389,7 @@ export default function Home() {
 
       <section id="services" className="border-y border-slate-200 bg-white py-20 dark:border-white/10 dark:bg-zinc-900/40">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Services" title="Practical support for digital work." description="A focused mix of technical operations, frontend development, and creative production." />
+          <SectionHeading eyebrow="Services" title="Practical support for business systems." description="A resume-backed mix of web development, database work, IT support, and customer-focused problem solving." />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((service, index) => {
               const Icon = service.icon;
@@ -334,23 +415,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+      <section id="about" className="py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl items-start gap-8 px-4 sm:px-6 lg:grid-cols-[320px_1fr] lg:gap-12 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
             variants={fadeUp}
             transition={{ duration: 0.45 }}
-            className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5"
+            className="mx-auto w-full max-w-xs rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5 lg:mx-0"
           >
-            <Image
-              src="/img/graduation%20pic.jpg"
-              alt="Bernie Fernando graduation portrait"
-              width={900}
-              height={899}
-              className="h-full min-h-[360px] w-full object-cover"
-            />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-slate-100 dark:bg-zinc-800">
+              <Image
+                src="/img/graduation%20pic.jpg"
+                alt="Bernie Fernando graduation portrait"
+                fill
+                sizes="(min-width: 1024px) 288px, 80vw"
+                className="object-cover object-top"
+              />
+            </div>
+            <div className="mt-4 rounded-md bg-slate-50 p-4 dark:bg-zinc-950/60">
+              <p className="text-sm font-bold text-slate-950 dark:text-white">Bernie S. Fernando Jr.</p>
+              <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">IT Support | Full-Stack Developer</p>
+              <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-semibold text-slate-600 dark:text-zinc-300">
+                <span className="rounded-md bg-white px-2 py-2 text-center dark:bg-white/10">1+ year</span>
+                <span className="rounded-md bg-white px-2 py-2 text-center dark:bg-white/10">5 certs</span>
+              </div>
+            </div>
           </motion.div>
           <motion.div
             initial="hidden"
@@ -358,35 +449,82 @@ export default function Home() {
             viewport={{ once: true, amount: 0.25 }}
             variants={fadeUp}
             transition={{ duration: 0.45 }}
-            className="flex flex-col justify-center"
+            className="pt-0 lg:pt-1"
           >
             <span className="text-sm font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">About me</span>
-            <h2 className="mt-3 text-3xl font-bold tracking-normal sm:text-4xl">I like making technology feel understandable.</h2>
+            <h2 className="mt-3 text-3xl font-bold tracking-normal sm:text-4xl">I build, support, and improve digital systems.</h2>
             <div className="mt-6 space-y-5 text-base leading-8 text-slate-600 dark:text-zinc-300">
               <p>
-                My work blends day-to-day IT support with web development and design. I enjoy building interfaces that are straightforward, responsive, and easy to maintain.
+                My experience covers internal web application development, REST API implementation, Oracle Database integration, and technical support in corporate environments.
               </p>
               <p>
-                I started by learning through school projects, experiments, and persistent self-study. That habit still shapes how I work: understand the problem, keep the solution clean, and improve with every project.
+                I enjoy practical work: building tools that help employees, maintaining existing systems, improving performance, resolving tickets, and making technology easier for people to use.
               </p>
             </div>
-            <div className="mt-8 flex flex-wrap gap-2">
-              {skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200"
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {skillGroups.map((group) => (
+                <div
+                  key={group.title}
+                  className="min-h-36 rounded-lg border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-white/5"
                 >
-                  {skill}
-                </span>
+                  <h3 className="text-sm font-bold text-slate-950 dark:text-white">{group.title}</h3>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-md bg-slate-100 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:bg-white/10 dark:text-zinc-200"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section id="work" className="border-y border-slate-200 bg-white py-20 dark:border-white/10 dark:bg-zinc-900/40">
+      <section id="experience" className="border-y border-slate-200 bg-white py-20 dark:border-white/10 dark:bg-zinc-900/40">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Recent work" title="Selected projects with clear goals." description="A cleaner showcase of responsive development, visual design, and prototype work." />
+          <SectionHeading eyebrow="Professional experience" title="A track record across development and support." description="Key roles from your resume, rewritten for a polished web portfolio." />
+          <div className="mt-10 grid gap-5">
+            {experience.map((item, index) => (
+              <motion.article
+                key={`${item.company}-${item.role}`}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeUp}
+                transition={{ delay: index * 0.06, duration: 0.45 }}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-white/5"
+              >
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-950 dark:text-white">{item.role}</h3>
+                    <p className="mt-1 text-sm font-semibold text-emerald-700 dark:text-emerald-300">{item.company}</p>
+                  </div>
+                  <span className="w-fit rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 dark:border-white/10 dark:bg-zinc-950/60 dark:text-zinc-300">
+                    {item.date}
+                  </span>
+                </div>
+                <ul className="mt-5 grid gap-3 text-sm leading-7 text-slate-600 dark:text-zinc-300">
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-3">
+                      <CheckCircle2 className="mt-1 shrink-0 text-emerald-600 dark:text-emerald-300" size={16} />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="work" className="py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading eyebrow="Recent work" title="Selected projects with clear goals." description="A concise showcase of responsive development, visual design, and prototype work." />
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {projects.map((project, index) => (
               <motion.article
@@ -396,7 +534,7 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.25 }}
                 variants={fadeUp}
                 transition={{ delay: index * 0.08, duration: 0.45 }}
-                className="group overflow-hidden rounded-lg border border-slate-200 bg-slate-50 transition hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                className="group overflow-hidden rounded-lg border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-zinc-800">
                   <Image src={project.image} alt={`${project.title} preview`} fill className="object-cover transition duration-500 group-hover:scale-105" />
@@ -421,11 +559,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="certificates" className="py-20">
+      <section id="certificates" className="border-y border-slate-200 bg-white py-20 dark:border-white/10 dark:bg-zinc-900/40">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Certificates" title="Learning that supports the craft." description="A concise set of certificates from data and visualization learning paths." />
+          <SectionHeading eyebrow="Certificates" title="Credentials that support the work." description="Your resume certifications, plus available certificate previews from the original portfolio assets." />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {certificates.map((certificate, index) => (
+            {certificateImages.map((certificate, index) => (
               <motion.article
                 key={certificate.title}
                 initial="hidden"
@@ -433,7 +571,7 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.25 }}
                 variants={fadeUp}
                 transition={{ delay: index * 0.08, duration: 0.45 }}
-                className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5"
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5"
               >
                 <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-slate-100 dark:bg-zinc-800">
                   <Image src={certificate.image} alt={certificate.title} fill className="object-cover" />
@@ -442,57 +580,76 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {certifications.map((certification) => (
+              <div key={certification} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200">
+                <Sparkles className="mt-1 shrink-0 text-amber-500" size={16} />
+                <span>{certification}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <section id="contact" className="bg-slate-950 py-20 text-white dark:bg-black">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_0.8fr] lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_0.85fr] lg:px-8">
           <div>
             <span className="text-sm font-bold uppercase tracking-wide text-emerald-300">Contact</span>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-normal sm:text-4xl">Let&apos;s build something clear, useful, and easy to use.</h2>
+            <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-normal sm:text-4xl">Let&apos;s build something useful and dependable.</h2>
             <p className="mt-5 max-w-2xl text-base leading-8 text-zinc-300">
-              I&apos;m open to web projects, UI/UX design work, technical support tasks, and collaborations that need a dependable digital generalist.
+              I&apos;m open to full-stack web development, IT support, UI/UX design, and technical support opportunities.
             </p>
           </div>
-          <div className="flex flex-col justify-center gap-3">
+          <div className="grid gap-3">
             <a
-              href="https://www.facebook.com/profile.php?id=100009836075204"
-              target="_blank"
-              rel="noreferrer"
+              href={`mailto:${contact.email}`}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
             >
-              <ArrowUpRight size={18} />
-              Contact on Facebook
+              <Mail size={18} />
+              {contact.email}
             </a>
             <a
-              href="https://github.com/docjay8390"
+              href={`tel:${contact.phone.replace(/\s/g, "")}`}
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              <Phone size={18} />
+              {contact.phone}
+            </a>
+            <a
+              href={contact.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              <Linkedin size={18} />
+              LinkedIn
+            </a>
+            <a
+              href={contact.github}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
             >
               <Github size={18} />
-              View GitHub
-            </a>
-            <a
-              href="#home"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-            >
-              <ArrowUp size={18} />
-              Back to top
+              GitHub
             </a>
           </div>
         </div>
         <div className="mx-auto mt-14 flex max-w-7xl flex-col gap-4 border-t border-white/10 px-4 pt-8 text-sm text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>Copyright © {currentYear} Bernie S. Fernando. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a className="transition hover:text-white" href="https://www.facebook.com/profile.php?id=100009836075204" target="_blank" rel="noreferrer">
+          <p>Copyright (c) {currentYear} Bernie S. Fernando Jr. All rights reserved.</p>
+          <div className="flex flex-wrap gap-4">
+            <a className="transition hover:text-white" href={contact.facebook} target="_blank" rel="noreferrer">
               Facebook
             </a>
-            <a className="transition hover:text-white" href="https://www.instagram.com/itsdjfrnndo/" target="_blank" rel="noreferrer">
+            <a className="transition hover:text-white" href={contact.instagram} target="_blank" rel="noreferrer">
               Instagram
             </a>
-            <a className="transition hover:text-white" href="https://twitter.com/xxdjfrnndo" target="_blank" rel="noreferrer">
+            <a className="transition hover:text-white" href={contact.x} target="_blank" rel="noreferrer">
               X
+            </a>
+            <a className="inline-flex items-center gap-1 transition hover:text-white" href="#home">
+              Top
+              <ArrowUp size={14} />
             </a>
           </div>
         </div>
