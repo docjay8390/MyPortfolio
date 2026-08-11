@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bernie S. Fernando Jr. | IT Support & Full-Stack Developer",
+  title: "Bernie S. Fernando. | IT Support & Full-Stack Developer",
   description:
-    "Professional portfolio for Bernie S. Fernando Jr., an IT Support and Full-Stack Developer experienced in enterprise web apps, REST APIs, Oracle Database integration, and technical support.",
+    "Professional portfolio for Bernie S. Fernando., an IT Support and Full-Stack Developer experienced in enterprise web apps, REST APIs, Oracle Database integration, and technical support.",
 };
 
 export const viewport: Viewport = {

@@ -186,9 +186,9 @@ const skillGroups = [
 ];
 
 const quickStats = [
-  ["1+", "Year experience"],
-  ["5", "Certifications"],
-  ["4", "Professional roles"],
+  ["1+", "Experience"],
+  ["5", "Certs"],
+  ["4", "Roles"],
 ];
 
 const fadeUp = {
@@ -212,6 +212,9 @@ function getInitialTheme(): Theme {
 export default function Home() {
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showAllExperience, setShowAllExperience] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [showAllCertificates, setShowAllCertificates] = useState(false);
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   useEffect(() => {
@@ -231,14 +234,8 @@ export default function Home() {
     <main className="min-h-screen bg-slate-50 text-slate-950 antialiased transition-colors duration-300 dark:bg-zinc-950 dark:text-white">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-slate-50/85 backdrop-blur dark:border-white/10 dark:bg-zinc-950/80">
         <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <a href="#home" className="group flex items-center gap-3" onClick={closeMenu}>
-            <span className="grid size-10 place-items-center rounded-md bg-slate-950 text-sm font-bold text-white transition-colors group-hover:bg-emerald-600 dark:bg-white dark:text-zinc-950">
-              BF
-            </span>
-            <span className="hidden leading-tight sm:block">
-              <span className="block text-sm font-semibold">Bernie S. Fernando Jr.</span>
-              <span className="block text-xs text-slate-500 dark:text-zinc-400">IT Support | Full-Stack Developer</span>
-            </span>
+          <a href="#home" aria-label="Go to home section" className="group flex items-center gap-3" onClick={closeMenu}>
+            <BrandLogo />
           </a>
 
           <div className="hidden items-center gap-1 lg:flex">
@@ -309,7 +306,7 @@ export default function Home() {
               Building reliable web apps and supporting the people who use them.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg dark:text-zinc-300">
-              I&apos;m Bernie S. Fernando Jr., an IT professional with more than 1 year of combined experience in software development, IT support, and customer service. I work with enterprise web applications, REST APIs, Oracle Database integrations, and hands-on technical support.
+              I&apos;m Bernie S. Fernando, an IT professional with more than 1 year of combined experience in software development, IT support, and customer service. I work with enterprise web applications, REST APIs, Oracle Database integrations, and hands-on technical support.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -327,11 +324,11 @@ export default function Home() {
                 Email me
               </a>
             </div>
-            <div className="mt-10 grid grid-cols-3 gap-3 sm:max-w-xl">
+            <div className="mt-10 grid grid-cols-3 gap-2 sm:max-w-xl sm:gap-3">
               {quickStats.map(([value, label]) => (
-                <div key={label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
-                  <strong className="block text-2xl font-bold text-slate-950 dark:text-white">{value}</strong>
-                  <span className="mt-1 block text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-zinc-400">
+                <div key={label} className="min-w-0 rounded-lg border border-slate-200 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-white/5 sm:p-4">
+                  <strong className="block text-xl font-bold leading-none text-slate-950 dark:text-white sm:text-2xl">{value}</strong>
+                  <span className="mt-2 block break-words text-[10px] font-semibold uppercase leading-4 tracking-wide text-slate-500 dark:text-zinc-400 sm:text-xs">
                     {label}
                   </span>
                 </div>
@@ -361,23 +358,23 @@ export default function Home() {
                 <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5 dark:border-white/10 dark:bg-zinc-950/70">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h2 className="text-lg font-bold">Bernie S. Fernando Jr.</h2>
+                      <h2 className="text-lg font-bold">Contact details</h2>
                       <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">IT Support | Full-Stack Developer</p>
                     </div>
                     <BriefcaseBusiness className="shrink-0 text-emerald-600 dark:text-emerald-300" size={24} />
                   </div>
                   <div className="mt-5 grid gap-3 text-sm text-slate-600 dark:text-zinc-300">
-                    <a className="inline-flex items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={`tel:${contact.phone.replace(/\s/g, "")}`}>
+                    <a className="inline-flex min-w-0 items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={`tel:${contact.phone.replace(/\s/g, "")}`}>
                       <Phone size={16} />
-                      {contact.phone}
+                      <span className="min-w-0 break-words">{contact.phone}</span>
                     </a>
-                    <a className="inline-flex items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={`mailto:${contact.email}`}>
+                    <a className="inline-flex min-w-0 items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={`mailto:${contact.email}`}>
                       <Mail size={16} />
-                      {contact.email}
+                      <span className="min-w-0 break-all">{contact.email}</span>
                     </a>
-                    <a className="inline-flex items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={contact.linkedin} target="_blank" rel="noreferrer">
+                    <a className="inline-flex min-w-0 items-center gap-2 transition hover:text-emerald-700 dark:hover:text-emerald-300" href={contact.linkedin} target="_blank" rel="noreferrer">
                       <Linkedin size={16} />
-                      LinkedIn profile
+                      <span className="min-w-0 break-words">LinkedIn profile</span>
                     </a>
                   </div>
                 </div>
@@ -435,7 +432,7 @@ export default function Home() {
               />
             </div>
             <div className="mt-4 rounded-md bg-slate-50 p-4 dark:bg-zinc-950/60">
-              <p className="text-sm font-bold text-slate-950 dark:text-white">Bernie S. Fernando Jr.</p>
+              <p className="text-sm font-bold text-slate-950 dark:text-white">Profile snapshot</p>
               <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">IT Support | Full-Stack Developer</p>
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-semibold text-slate-600 dark:text-zinc-300">
                 <span className="rounded-md bg-white px-2 py-2 text-center dark:bg-white/10">1+ year</span>
@@ -497,7 +494,7 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
                 transition={{ delay: index * 0.06, duration: 0.45 }}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm dark:border-white/10 dark:bg-white/5"
+                className={`${index >= 2 && !showAllExperience ? "hidden sm:block" : ""} rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-white/10 dark:bg-white/5 sm:p-6`}
               >
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div>
@@ -519,6 +516,12 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
+          <ShowMoreButton
+            isExpanded={showAllExperience}
+            hiddenCount={experience.length - 2}
+            label="experience"
+            onClick={() => setShowAllExperience((current) => !current)}
+          />
         </div>
       </section>
 
@@ -534,7 +537,7 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.25 }}
                 variants={fadeUp}
                 transition={{ delay: index * 0.08, duration: 0.45 }}
-                className="group overflow-hidden rounded-lg border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                className={`${index >= 2 && !showAllProjects ? "hidden sm:block" : ""} group overflow-hidden rounded-lg border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10`}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-zinc-800">
                   <Image src={project.image} alt={`${project.title} preview`} fill className="object-cover transition duration-500 group-hover:scale-105" />
@@ -556,6 +559,12 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
+          <ShowMoreButton
+            isExpanded={showAllProjects}
+            hiddenCount={projects.length - 2}
+            label="projects"
+            onClick={() => setShowAllProjects((current) => !current)}
+          />
         </div>
       </section>
 
@@ -571,7 +580,7 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.25 }}
                 variants={fadeUp}
                 transition={{ delay: index * 0.08, duration: 0.45 }}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5"
+                className={`${index >= 2 && !showAllCertificates ? "hidden sm:block" : ""} rounded-lg border border-slate-200 bg-slate-50 p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5`}
               >
                 <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-slate-100 dark:bg-zinc-800">
                   <Image src={certificate.image} alt={certificate.title} fill className="object-cover" />
@@ -580,7 +589,7 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className={`${showAllCertificates ? "grid" : "hidden"} mt-8 gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-5`}>
             {certifications.map((certification) => (
               <div key={certification} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200">
                 <Sparkles className="mt-1 shrink-0 text-amber-500" size={16} />
@@ -588,6 +597,12 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <ShowMoreButton
+            isExpanded={showAllCertificates}
+            hiddenCount={certificateImages.length - 2 + certifications.length}
+            label="certificates"
+            onClick={() => setShowAllCertificates((current) => !current)}
+          />
         </div>
       </section>
 
@@ -603,17 +618,17 @@ export default function Home() {
           <div className="grid gap-3">
             <a
               href={`mailto:${contact.email}`}
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
+              className="inline-flex min-w-0 items-center justify-center gap-2 rounded-md bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
             >
-              <Mail size={18} />
-              {contact.email}
+              <Mail className="shrink-0" size={18} />
+              <span className="min-w-0 break-all">{contact.email}</span>
             </a>
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+              className="inline-flex min-w-0 items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
             >
-              <Phone size={18} />
-              {contact.phone}
+              <Phone className="shrink-0" size={18} />
+              <span className="min-w-0 break-words">{contact.phone}</span>
             </a>
             <a
               href={contact.linkedin}
@@ -636,7 +651,7 @@ export default function Home() {
           </div>
         </div>
         <div className="mx-auto mt-14 flex max-w-7xl flex-col gap-4 border-t border-white/10 px-4 pt-8 text-sm text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>Copyright (c) {currentYear} Bernie S. Fernando Jr. All rights reserved.</p>
+          <p>Copyright (c) {currentYear}. All rights reserved.</p>
           <div className="flex flex-wrap gap-4">
             <a className="transition hover:text-white" href={contact.facebook} target="_blank" rel="noreferrer">
               Facebook
@@ -655,6 +670,52 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+function BrandLogo() {
+  return (
+    <span
+      aria-hidden="true"
+      className="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-md border border-slate-200 bg-white text-slate-950 shadow-sm transition duration-300 group-hover:border-emerald-300 group-hover:shadow-emerald-500/15 dark:border-white/10 dark:bg-zinc-900 dark:text-white"
+    >
+      <span className="absolute inset-1 rounded-[4px] border border-slate-200 dark:border-white/10" />
+      <span className="absolute -right-3 -top-4 h-12 w-8 rotate-45 bg-emerald-500/18 transition group-hover:bg-emerald-500/28" />
+      <span className="absolute bottom-2 left-2 h-0.5 w-7 rounded-full bg-emerald-500" />
+      <span className="relative font-mono text-[15px] font-black leading-none tracking-normal">
+        <span className="text-slate-950 dark:text-white">{"</"}</span>
+        <span className="text-emerald-600 dark:text-emerald-400">{">"}</span>
+      </span>
+    </span>
+  );
+}
+
+function ShowMoreButton({
+  isExpanded,
+  hiddenCount,
+  label,
+  onClick,
+}: {
+  isExpanded: boolean;
+  hiddenCount: number;
+  label: string;
+  onClick: () => void;
+}) {
+  if (hiddenCount <= 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-6 sm:hidden">
+      <button
+        type="button"
+        aria-expanded={isExpanded}
+        onClick={onClick}
+        className="w-full rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+      >
+        {isExpanded ? `Show fewer ${label}` : `See ${hiddenCount} more ${label}`}
+      </button>
+    </div>
   );
 }
 
